@@ -14,7 +14,8 @@ func ReadString(input string) string{
 	return strings.TrimSpace(text)
 }
 
-func WaitForKey() {
-	fmt.Print("\nTekan Enter untuk kembali ke menu...")
+func WaitForKey(mess string) {
+	fmt.Printf("\n%s", mess)
 	bufio.NewReader(os.Stdin).ReadString('\n')
 }
+
