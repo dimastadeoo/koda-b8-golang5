@@ -53,3 +53,16 @@ func (s *AuthService) Login(user string, passwd string) (*Users, error) {
 	fmt.Printf("Selamat Datang %s!\n", user)
 	return username, nil
 }
+// cange password
+func (s *AuthService) ChangePasswd(user, oldPass, newPass, confirm string) error{
+	username := s.DB[user]
+	if username.Password != hashPasswd(oldPass){
+		return  errors.New("Password Lama Tidak sesuai")
+	}
+	if confirm != newPass {
+		return  errors.New("Password Baru harus sesuai dengan confirm password")
+	}
+	
+	username.Password = hashPasswd(newPass)
+	return nil
+}
