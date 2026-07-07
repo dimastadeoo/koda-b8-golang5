@@ -26,7 +26,7 @@ func userMenu(s *auth.AuthService, u *auth.Users){
 				fmt.Println(err)
 			}
 		case "3":
-			auth.WaitForKey("Tekan Enter untuk Logout ke menu awal....")
+			auth.WaitForKey("Tekan Enter untuk Logout dan kembali ke menu awal....")
 			break LoopUserMenu
 		default: 
 			fmt.Println("Pilih hanya angka 1 - 3")
