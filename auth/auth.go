@@ -15,7 +15,7 @@ type Users struct {
 
 // untuk simpan data user
 type AuthService struct {
-	DB map[string]*Users
+	DB []*Users
 }
 
 // fungsi hash passwd jadi md5
@@ -30,39 +30,43 @@ func (s *AuthService) Register(fullname, user, passwd, confirm string){
 	if confirm != passwd {
 		panic("Password harus sama dengan confirm password")
 	}
-	
-	if _, checkData := s.DB[user]; checkData{
-		panic("User sudah terdaftar")
+
+	for _, data := range s.DB{
+		if data.Username == user{
+			panic("User sudah terdaftar")
+		}
 	}
 
 	hashPwd := hashPasswd(passwd) //input passwd kita hash dulu, baru masukkan ke data user
-	s.DB[user] = &Users{Fullname: fullname, Username: user, Password: hashPwd}
-	fmt.Println("Registrasi sukses!")
+	s.DB = append(s.DB, &Users{Fullname: fullname, Username: user, Password: hashPwd})
+	fmt.Println("Registrasi sukses! ")
 }
 
 // method login
 func (s *AuthService) Login(user string, passwd string) (*Users, error) {
-	username, checkData := s.DB[user]
-	if !checkData {
-		return nil, errors.New("Username tidak ditemukan")
+	for _, data := range s.DB{
+		if data.Username == user && data.Password == hashPasswd(passwd){
+			fmt.Printf("Selamat Datang %s!\n", data.Fullname)
+			return data, nil
+		}
 	}
-
-	if username.Password != hashPasswd(passwd){
-		return nil, errors.New("Password tidak sesuai")
-	}
-	fmt.Printf("Selamat Datang %s!\n", user)
-	return username, nil
+	return nil, errors.New("User atau Password tidak sesuai")
 }
+
+
 // cange password
 func (s *AuthService) ChangePasswd(user, oldPass, newPass, confirm string) error{
-	username := s.DB[user]
-	if username.Password != hashPasswd(oldPass){
-		return  errors.New("Password Lama Tidak sesuai")
-	}
 	if confirm != newPass {
 		return  errors.New("Password Baru harus sesuai dengan confirm password")
 	}
+
+	for _, data := range s.DB{
+		if data.Password == hashPasswd(oldPass){
+			data.Password = hashPasswd(newPass)
+			fmt.Printf("Password %s Berhasil diubah \n", data.Fullname)
+			return nil
+		}
+	}
+	return  errors.New("Password Lama Tidak sesuai")
 	
-	username.Password = hashPasswd(newPass)
-	return nil
 }
