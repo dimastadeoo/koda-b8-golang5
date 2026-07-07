@@ -8,6 +8,7 @@ import (
 )
 
 type Users struct {
+	Fullname string
 	Username string
 	Password string
 }
@@ -25,26 +26,30 @@ func hashPasswd (password string) string{
 }
 
 // method register
-func (s *AuthService) Register(user string, passwd string){
+func (s *AuthService) Register(fullname, user, passwd, confirm string){
+	if confirm != passwd {
+		panic("Password harus sama dengan confirm password")
+	}
+	
 	if _, checkData := s.DB[user]; checkData{
 		panic("User sudah terdaftar")
 	}
 
 	hashPwd := hashPasswd(passwd) //input passwd kita hash dulu, baru masukkan ke data user
-	s.DB[user] = &Users{Username: user, Password: hashPwd}
+	s.DB[user] = &Users{Fullname: fullname, Username: user, Password: hashPwd}
 	fmt.Println("Registrasi sukses!")
 }
 
 // method login
-func (s *AuthService) Login(user string, passwd string) error {
+func (s *AuthService) Login(user string, passwd string) (*Users, error) {
 	username, checkData := s.DB[user]
 	if !checkData {
-		return errors.New("Username tidak ditemukan")
+		return nil, errors.New("Username tidak ditemukan")
 	}
 
 	if username.Password != hashPasswd(passwd){
-		return errors.New("Password tidak sesuai")
+		return nil, errors.New("Password tidak sesuai")
 	}
 	fmt.Printf("Selamat Datang %s!\n", user)
-	return nil
+	return username, nil
 }
