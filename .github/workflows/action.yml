@@ -50,7 +50,7 @@ jobs:
       - name: Compress artifact Linux
         run: zip -r Program-Auth-Linux.zip ./program-auth-linux
       - name: Compress artifact Windows
-        run: zip -r Program-Auth-Windows.zip ./program-auth.exe
+        run: zip -r Program-Auth-Windows.zip ./program-auth-windows.exe
       - name: Compress artifact Mac OS
         run: zip -r Program-Auth-Mac.zip ./program-auth-darwin
       - name: Release
