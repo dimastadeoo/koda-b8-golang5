@@ -44,12 +44,13 @@ jobs:
       - name: build app
         run: go build -o program-auth main.go
       - name: Compress artifact
-        run: cd dist && zip -r ../EasyShop-app.zip ./program-auth
+        run: zip -r Program-Auth-app.zip ./program-auth
       - name: Release
         uses: softprops/action-gh-release@v3
         with:
           files: |
             Program-Auth-app.zip
+
   build-docker-image:
     needs: rules-tag
     runs-on: ubuntu-latest
