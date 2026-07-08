@@ -15,3 +15,6 @@ jika input sudah sesuai maka akan kembali ke menu awal, tapi jika tidak sesuai m
 - rubah password, untuk mengganti password dengan autentikasi password lama
 - logout untuk keluar dari tampilan user an kembali ke menu awal
 - lalu di menu awal ada menu exit yang dipakai untuk mengakhiri program
+
+
+Program ini sudah menggunakan workflow build app otomatis dalam bentuk aplikasi Linux, Windows, dan Mac, yang ada dibagian release. dan program ini sudah build images otomatis dengan server docker alpine, yang bisa di pull di bagian package
