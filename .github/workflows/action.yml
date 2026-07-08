@@ -44,9 +44,9 @@ jobs:
       - name: build app linux
         run: go build -o program-auth-linux main.go
       - name: build app windows
-        run: GOOS=windows GOARCH=amd64 go build program-auth-windows.exe main.go
+        run: GOOS=windows GOARCH=amd64 go build -o program-auth-windows.exe main.go
       - name: build app Mac OS
-        run: GOOS=darwin GOARCH=arm64 go build program-auth-darwin main.go
+        run: GOOS=darwin GOARCH=arm64 go build -o program-auth-darwin main.go
       - name: Compress artifact Linux
         run: zip -r Program-Auth-Linux.zip ./program-auth-linux
       - name: Compress artifact Windows
