@@ -28,7 +28,7 @@ jobs:
             fi
 
   release-app:
-    name: "Release builded app"
+    name: "Release builded app Linux"
     needs: rules-tag
     runs-on: ubuntu-latest
     steps:
@@ -41,15 +41,25 @@ jobs:
           go-version: '1.26'
       - name: install go deps
         run: go mod tidy
-      - name: build app
-        run: go build -o program-auth main.go
-      - name: Compress artifact
-        run: zip -r Program-Auth-app.zip ./program-auth
+      - name: build app linux
+        run: go build -o program-auth-linux main.go
+      - name: build app windows
+        run: GOOS=windows GOARCH=amd64 go build program-auth-windows.exe main.go
+      - name: build app Mac OS
+        run: GOOS=darwin GOARCH=arm64 go build program-auth-darwin main.go
+      - name: Compress artifact Linux
+        run: zip -r Program-Auth-Linux.zip ./program-auth-linux
+      - name: Compress artifact Windows
+        run: zip -r Program-Auth-Windows.zip ./program-auth.exe
+      - name: Compress artifact Mac OS
+        run: zip -r Program-Auth-Mac.zip ./program-auth-darwin
       - name: Release
         uses: softprops/action-gh-release@v3
         with:
           files: |
-            Program-Auth-app.zip
+            Program-Auth-Linux.zip
+            Program-Auth-Windows.zip
+            Program-Auth-Mac.zip
 
   build-docker-image:
     needs: rules-tag
