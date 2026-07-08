@@ -32,13 +32,13 @@ jobs:
     needs: rules-tag
     runs-on: ubuntu-latest
     steps:
+      - name: get source
+        uses: actions/checkout@v6
       - name: setup golang
       - uses: actions/setup-go@v6
         with:
           # Version or version range of Go to use
-          go-version: '1.26.4'
-      - name: get source
-        uses: actions/checkout@v7
+          go-version: '1.26'
       - name: install go deps
         run: go mod tidy
       - name: build app
